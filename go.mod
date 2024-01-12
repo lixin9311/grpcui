@@ -6,9 +6,10 @@ require (
 	github.com/fullstorydev/grpcurl v1.8.9
 	github.com/golang/protobuf v1.5.3
 	github.com/jhump/protoreflect v1.15.4
-	github.com/pkg/browser v0.0.0-20180916011732-0a3d74bf9ce4
+	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c
 	golang.org/x/net v0.20.0
 	golang.org/x/term v0.16.0
+	google.golang.org/api v0.114.0
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230525234030-28d5490b6b19
 	google.golang.org/grpc v1.57.1
 	google.golang.org/protobuf v1.32.0
@@ -24,6 +25,9 @@ require (
 	github.com/cncf/xds/go v0.0.0-20230607035331-e9ce68804cb4 // indirect
 	github.com/envoyproxy/go-control-plane v0.11.1-0.20230524094728-9239064ad72f // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.10.1 // indirect
+	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
+	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/oauth2 v0.7.0 // indirect
 	golang.org/x/sync v0.5.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect

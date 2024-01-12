@@ -29,9 +29,12 @@ import (
 	"github.com/jhump/protoreflect/grpcreflect"
 	"github.com/pkg/browser"
 	"golang.org/x/term"
+	"google.golang.org/api/idtoken"
+	"google.golang.org/api/option"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	insecurecreds "google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials/oauth"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/metadata"
@@ -136,6 +139,10 @@ var (
 		This defaults to true when grpcui is used in an interactive mode; e.g.
 		when the tool detects that stdin is a terminal/tty. Otherwise, this
 		defaults to false.`))
+	useIdToken = flags.String("use-id-token", "", prettify(`
+		Specify the json key file for the service account to use when
+		accessing the gRPC server. The service account must have the
+		"Cloud Run Invoker" role.`))
 	examplesFile = flags.String("examples", "", prettify(`
 		Load examples from the given JSON file. The examples are shown in the UI
 		which lets users pick pre-defined RPC and request data, like a recipe.
@@ -534,6 +541,14 @@ func main() {
 	} else if *authority != "" {
 		opts = append(opts, grpc.WithAuthority(*authority))
 	}
+	if *useIdToken != "" {
+		source, err := idtoken.NewTokenSource(ctx, "https://"+strings.Split(target, ":")[0], option.WithCredentialsFile(*useIdToken))
+		if err != nil {
+			fail(err, "Failed to acquire token source")
+		}
+		opts = append(opts, grpc.WithPerRPCCredentials(oauth.TokenSource{TokenSource: source}))
+	}
+
 	network := "tcp"
 	if isUnixSocket != nil && isUnixSocket() {
 		network = "unix"
